@@ -15,7 +15,7 @@ type Account struct {
 	Auth      bool // successful login status
 	Following map[string]bool
 	Followers map[string]bool
-	Leeches     []string //users who dont follow back
+	Ghosts    []string //users who dont follow back
 }
 
 func readCredentialsFromConfig() (Account, error) {
