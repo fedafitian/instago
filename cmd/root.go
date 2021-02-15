@@ -19,7 +19,6 @@ var rootCmd = &cobra.Command{
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -30,11 +29,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.instago.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.instago.env)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -57,8 +52,10 @@ func initConfig() {
 		// Search config in home directory with name ".instago" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".instago")
+		viper.SetConfigType("env")
+		cfgFile = "~/.instago.env"
 	}
-
+	fmt.Println("config path ", cfgFile)
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
